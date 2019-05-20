@@ -1,14 +1,14 @@
-function [y] = echo_effect(x, n, d, fb)
-    y = zeros(1, n);
-    if n > length(x)
-        y(1:length(x)) = x(1:length(x));
-    else
-        y(1:n) = x(1:n);
-    end
-    xn = y;
-    delay_buf = zeros(1, n+d);
-    for j = 1:n
-        y(j) = xn(j) + fb * delay_buf(j);
-        delay_buf(j+d) = y(j);
-    end
+function [y] = echo_effect(x,ff,d,fb)
+    y = zeros(1, length(x)*2);
+    x(length(x)+1:length(x)*2) = zeros(1, length(x));
+    
+    for j = 1:length(x)
+        if(d >= j)
+            y(j) = ff * x(j);
+            j
+        else
+            y(j) = ff * x(j) + fb * y(j - d);
+            j
+        end
+     end
 end
